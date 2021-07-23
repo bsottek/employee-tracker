@@ -55,7 +55,7 @@ VALUES (
         'John',
         'Stamos',
         2,
-        NULL
+        1
     ),
     (
         'Doctor',
@@ -66,7 +66,7 @@ VALUES (
     (    'Johnny',
         'Cash',
         4,
-        NULL
+        3
     ),
     (
         'Charles',
@@ -78,7 +78,7 @@ VALUES (
         'Betty',
         'White',
         5,
-        NULL
+        5
     ),
     (
         'Saul',
