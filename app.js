@@ -13,11 +13,22 @@ const cTable = require('console.table');
 //         console.table(rows);
 //     });
 
-let newDepartment = new Department('Creative');
+// let newDepartment = new Department('Creative');
 
-createDepartment(newDepartment);
+// createDepartment(newDepartment);
 
-viewAllDepartments()
+// viewAllDepartments()
+//     .then(rows => {
+//         console.table(rows);
+//     });
+
+let newEmployee = new Employee('Bob', 'Sagget', 1, null);
+
+createEmployee(newEmployee);
+
+updateEmployeeRole(2,9);
+
+viewAllEmployees()
     .then(rows => {
         console.table(rows);
     });
