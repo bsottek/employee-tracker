@@ -3,6 +3,8 @@ const { Employee, createEmployee, updateEmployeeRole, viewAllEmployees, selectEm
 const { Role, createRole, viewAllRoles, selectRole } = require('./lib/Role');
 const { Department, createDepartment, viewAllDepartments, selectDepartment } = require('./lib/Department');
 const cTable = require('console.table');
+const db = require('./db/connection');
+
 
 const promptUser = () => {
     console.log(`
@@ -89,6 +91,14 @@ const choiceHandler = (({ actionSelection }) => {
                             promptUser();
                         });
                 });
+            break;
+        case 'Exit':
+            console.log(`
+                =======
+                Goodbye
+                =======
+            `)
+            db.end();
             break;
     }
 })
