@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
-const { Employee, createEmployee, updateEmployeeRole, viewAllEmployees } = require('./lib/Employee');
-const { Role, createRole, viewAllRoles } = require('./lib/Role');
-const { Department, createDepartment, viewAllDepartments } = require('./lib/Department');
+const { Employee, createEmployee, updateEmployeeRole, viewAllEmployees, selectEmployee } = require('./lib/Employee');
+const { Role, createRole, viewAllRoles, selectRole } = require('./lib/Role');
+const { Department, createDepartment, viewAllDepartments, selectDepartment } = require('./lib/Department');
 const cTable = require('console.table');
 
 const promptUser = () => {
@@ -72,6 +72,15 @@ const choiceHandler = (({ actionSelection }) => {
                         });
                 });
             break;
+        case 'Add an employee':
+            createEmployeePrompt()
+                .then(details => {
+                    createEmployee(details)
+                        .then(() => {
+                            promptUser();
+                        });
+                });
+            break;
     }
 })
 
@@ -105,15 +114,63 @@ const createRolePrompt = () => {
                 message: 'What is the salary of this role?'
             },
             {
-                type: 'input',
+                type: 'list',
                 name: 'departmentId',
-                message: 'Which department will this role fall under? (Please enter department ID)',
+                message: 'Which department will this role fall under?',
+                choices: selectDepartment
             }
         ])
         .then(details => {
             return details;
         })
 }
+
+const createEmployeePrompt = () => {
+
+    return inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'firstName',
+                message: `What is the employee's first name?`
+
+            },
+            {
+                type: 'input',
+                name: 'lastName',
+                message: `What is the employee's last name?`
+            },
+            {
+                type : 'list',
+                name: 'rolesId',
+                message: `What is the employee's role?`,
+                choices: selectRole
+            },
+            {
+                type : 'confirm',
+                name: 'managerConfirm',
+                message: 'Does this employee have a manager?',
+                default: false
+            },
+            {
+                type: 'list',
+                name: 'managerId',
+                message: `Who is this employee's manager?`,
+                choices: selectEmployee,
+                when: ({managerConfirm}) => {
+                    if (managerConfirm){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        ])
+        .then(details => {
+            return details;
+        })
+}
+
 
 promptUser();
 
@@ -136,10 +193,17 @@ promptUser();
 
 // viewAllDepartments()
 //     .then(rows => {
-//         let departments = rows;
-//         let departmentNames = []
-//         departments.forEach(department => departmentNames.push(department.department_name));
-//         return departmentNames;
+//         let departmentNames = rows.map(a => a.department_name);
+//         return(console.log(departmentNames));
+//     });
+
+// viewAllRoles()
+//     .then(rows => {
+//         // let roleNames = rows.map(a => a.title);
+//         // return (console.log(roleNames));
+
+//         let rolesChoices = rows.map(a => );
+//         console.log(rolesChoices);
 //     });
 
 // let newEmployee = new Employee('Bob', 'Sagget', 1, null);
