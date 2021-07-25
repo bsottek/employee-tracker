@@ -81,6 +81,15 @@ const choiceHandler = (({ actionSelection }) => {
                         });
                 });
             break;
+        case 'Update an employee role':
+            updateEmployeePrompt()
+                .then(details => {
+                    updateEmployeeRole(details.newRoleId, details.employeeId)
+                        .then(() => {
+                            promptUser();
+                        });
+                });
+            break;
     }
 })
 
@@ -118,6 +127,27 @@ const createRolePrompt = () => {
                 name: 'departmentId',
                 message: 'Which department will this role fall under?',
                 choices: selectDepartment
+            }
+        ])
+        .then(details => {
+            return details;
+        })
+}
+
+const updateEmployeePrompt = () => {
+    return inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'employeeId',
+                message: 'Which employee would you like to update?',
+                choices: selectEmployee
+            },
+            {
+                type: 'list',
+                name: 'newRoleId',
+                message: 'Select a new role for this employee',
+                choices: selectRole
             }
         ])
         .then(details => {
